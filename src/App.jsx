@@ -4,31 +4,23 @@ import { useColumns } from "../hooks/useColumns";
 import { useDragEnd } from "../hooks/useDragEnd";
 import { useDragUpdate } from "../hooks/useDragUpdate";
 import DraggableComp from "../component/DraggableComp";
-import { useInvalid } from "../hooks/useInvalid";
+import DroppableComp from "../component/DroppableComp";
 
 export default function App() {
-  const [columns, setColumns] = useColumns();
-  const [invalid, setInvalid] = useInvalid();
-  const { onDragEnd } = useDragEnd({ columns, setColumns });
-  const { onDragUpdate } = useDragUpdate({ columns, setInvalid });
+  const [columns] = useColumns();
+  const { onDragEnd } = useDragEnd();
+  const { onDragUpdate } = useDragUpdate();
 
   return (
-    <div style={{ display: "flex", gap: "4rem" }}>
+    <div className="flex gap-4">
       <DragDropContext onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
-        {Object.entries(columns).map(([key, value]) => {
-          return (
-            <Droppable key={key} droppableId={key}>
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {value.map((item, index) => (
-                    <DraggableComp key={index} item={item} index={index} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          );
-        })}
+        {Object.entries(columns).map(([key, value]) => (
+          <DroppableComp key={key} droppableId={key}>
+            {value.map((item, index) => (
+              <DraggableComp key={index} item={item} index={index} />
+            ))}
+          </DroppableComp>
+        ))}
       </DragDropContext>
     </div>
   );
