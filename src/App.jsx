@@ -1,37 +1,35 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { getItemStyle } from "../styles/getItemStyle";
-import { getListStyle } from "../styles/getListStyle";
-import { useItems } from "../hooks/useItems";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { useColumns } from "../hooks/useColumns";
 import { useDragEnd } from "../hooks/useDragEnd";
+import { useDragUpdate } from "../hooks/useDragUpdate";
+import DraggableComp from "../component/DraggableComp";
+import { useInvalid } from "../hooks/useInvalid";
 
 export default function App() {
-  const [items, setItems] = useItems();
-  const { onDragEnd } = useDragEnd({ items, setItems });
+  const [columns, setColumns] = useColumns();
+  const [invalid, setInvalid] = useInvalid();
+  const { onDragEnd } = useDragEnd({ columns, setColumns });
+  const { onDragUpdate } = useDragUpdate({ columns, setInvalid });
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
-        {(provided, snapshot) => (
-          <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-            {items.map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                  >
-                    {item.content}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <div style={{ display: "flex", gap: "4rem" }}>
+      <DragDropContext onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+        {Object.entries(columns).map(([key, value]) => {
+          return (
+            <Droppable key={key} droppableId={key}>
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {value.map((item, index) => (
+                    <DraggableComp key={index} item={item} index={index} />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          );
+        })}
+      </DragDropContext>
+    </div>
   );
 }
