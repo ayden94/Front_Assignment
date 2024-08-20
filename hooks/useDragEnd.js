@@ -1,20 +1,15 @@
-export const useDragEnd = ({ items, setItems }) => {
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+import { useCallback } from "react";
+import { columnReorder } from "../util/columnReorder";
+import { isInvalid } from "../business/isInvalid";
 
-  const onDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
+export const useDragEnd = ({ columns, setColumns }) => {
+  const onDragEnd = useCallback((result) => {
+    if (isInvalid({ ...result, columns })) return;
 
-    const newItems = reorder(items, result.source.index, result.destination.index);
+    const newColumns = columnReorder({ ...result, columns });
 
-    setItems(newItems);
-  };
+    setColumns(newColumns);
+  });
 
   return { onDragEnd };
 };
