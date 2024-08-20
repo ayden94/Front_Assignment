@@ -1,8 +1,11 @@
 import { useCallback } from "react";
 import { columnReorder } from "../util/columnReorder";
 import { isInvalid } from "../business/isInvalid";
+import { useColumns } from "./useColumns";
 
-export const useDragEnd = ({ columns, setColumns }) => {
+export const useDragEnd = () => {
+  const [columns, setColumns] = useColumns();
+
   const onDragEnd = useCallback((result) => {
     if (isInvalid({ ...result, columns })) return;
 
