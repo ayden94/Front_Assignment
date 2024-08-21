@@ -1,5 +1,5 @@
 import React from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { useColumns } from "../hooks/useColumns";
 import { useDragEnd } from "../hooks/useDragEnd";
 import { useDragUpdate } from "../hooks/useDragUpdate";
@@ -12,8 +12,8 @@ export default function App() {
   const { onDragUpdate } = useDragUpdate();
 
   return (
-    <div className="flex gap-4">
-      <DragDropContext onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+    <DragDropContext onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+      <div className="flex gap-4">
         {Object.entries(columns).map(([key, value]) => (
           <DroppableComp key={key} droppableId={key}>
             {value.map((item, index) => (
@@ -21,7 +21,7 @@ export default function App() {
             ))}
           </DroppableComp>
         ))}
-      </DragDropContext>
-    </div>
+      </div>
+    </DragDropContext>
   );
 }
