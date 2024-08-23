@@ -6,10 +6,10 @@ export const getColumns = (value) => {
   }));
 
   const initialColumns = {
-    column1: initialItems.slice(0, 5) ?? [],
-    column2: initialItems.slice(5, 10) ?? [],
-    column3: initialItems.slice(10, 15) ?? [],
-    column4: initialItems.slice(15, 20) ?? [],
+    column1: initialItems,
+    column2: [],
+    column3: [],
+    column4: [],
   };
 
   return initialColumns;
