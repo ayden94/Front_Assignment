@@ -5,17 +5,15 @@ import { useDragEnd } from "../hooks/handler/useDragEnd";
 import { useDragUpdate } from "../hooks/handler/useDragUpdate";
 import DraggableComp from "../component/DraggableComp";
 import DroppableComp from "../component/DroppableComp";
-import { useIsDragging } from "../hooks/globalState/useIsDragging";
 import { useDragStart } from "../hooks/handler/useDragStart";
+import { useDraggableClick } from "../hooks/handler/useDraggableClick";
 
 export default function App() {
   const [columns] = useColumns();
   const { onDragStart } = useDragStart();
   const { onDragEnd } = useDragEnd();
   const { onDragUpdate } = useDragUpdate();
-  const [isDragging] = useIsDragging();
-
-  console.log(isDragging);
+  const { onDraggableClick } = useDraggableClick();
 
   return (
     <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
@@ -23,7 +21,7 @@ export default function App() {
         {Object.entries(columns).map(([key, value]) => (
           <DroppableComp key={key} droppableId={key}>
             {value.map((item, index) => (
-              <DraggableComp key={index} item={item} index={index} />
+              <DraggableComp key={index} item={item} index={index} onClick={onDraggableClick(item.id)} />
             ))}
           </DroppableComp>
         ))}
