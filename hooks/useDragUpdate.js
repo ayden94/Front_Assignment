@@ -8,7 +8,7 @@ export const useDragUpdate = () => {
   const [_, setInvalid] = useInvalid();
 
   const onDragUpdate = useCallback((update) => {
-    if (isInvalid({ ...update, columns })) setInvalid(update.source.index);
+    if (isInvalid({ ...update, columns })) setInvalid(update.draggableId);
     else setInvalid(null);
   });
 

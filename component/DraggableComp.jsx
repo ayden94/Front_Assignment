@@ -10,11 +10,11 @@ export default function DraggableComp({ item, index }) {
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
+          className={`${
+            snapshot.isDragging ? (invalid === item.id ? "bg-red-500" : "bg-green-400") : "hover:bg-gray-300"
+          } p-2 rounded-md`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`${
-            snapshot.isDragging ? (invalid === index ? "bg-red-500" : "bg-green-400") : "hover:bg-gray-300"
-          } p-2 rounded-md`}
         >
           {item.content}
         </div>
