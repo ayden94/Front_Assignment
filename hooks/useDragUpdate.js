@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { isInvalid } from "../business/isInvalid";
-import { useInvalid } from "./useInvalid";
-import { useColumns } from "./useColumns";
+import { useInvalid } from "./globalState/useInvalid";
+import { useColumns } from "./globalState/useColumns";
 
 export const useDragUpdate = () => {
   const [columns] = useColumns();

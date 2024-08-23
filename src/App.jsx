@@ -1,6 +1,6 @@
 import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useColumns } from "../hooks/useColumns";
+import { useColumns } from "../hooks/globalState/useColumns";
 import { useDragEnd } from "../hooks/useDragEnd";
 import { useDragUpdate } from "../hooks/useDragUpdate";
 import DraggableComp from "../component/DraggableComp";

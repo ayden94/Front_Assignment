@@ -1,6 +1,6 @@
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
-import { useInvalid } from "../hooks/useInvalid";
+import { useInvalid } from "../hooks/globalState/useInvalid";
 
 export default function DraggableComp({ item, index }) {
   const [invalid] = useInvalid();

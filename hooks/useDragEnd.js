@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { columnReorder } from "../util/columnReorder";
 import { isInvalid } from "../business/isInvalid";
-import { useColumns } from "./useColumns";
+import { useColumns } from "./globalState/useColumns";
 
 export const useDragEnd = () => {
   const [columns, setColumns] = useColumns();
