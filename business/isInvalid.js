@@ -2,8 +2,9 @@ export const isInvalid = ({ source, destination, columns }) => {
   // droppable하지 않을 경우에 대한 예외 처리
   if (!destination) return true;
 
-  //  같은 자리로 이동할 경우에 대한 예외 처리
-  if (isSamePosition({ source, destination })) return false;
+  if (isSamePosition({ source, destination }))
+    //  같은 자리로 이동할 경우에 대한 예외 처리
+    return false;
 
   // 요구사항 1. 첫 번째 칼럼에서 세 번째 칼럼으로 이동하는 것을 막는다.
   if (isMoveFirstToThird({ source, destination })) return true;

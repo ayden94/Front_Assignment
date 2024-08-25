@@ -1,35 +1,44 @@
 import { Draggable } from "react-beautiful-dnd";
-import React from "react";
-import { useInvalid } from "../hooks/globalState/useInvalid";
-import { useSelectedList } from "../hooks/globalState/useSelectedList";
-import { useIsDragging } from "../hooks/globalState/useIsDragging";
+import React, { useContext } from "react";
 import { isMultiDrag } from "../util/isMultiDrag";
+import { DragContext } from "../contexts/DragContext";
 
 export default function DraggableComp({ item, index, onClick }) {
+  const { invalidId, selectedList, isDragging } = useContext(DragContext);
+
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
       {(provided, snapshot) => (
         <div
           onClick={onClick}
           ref={provided.innerRef}
-          className={`${getBackgroundColor(snapshot, item.id)} p-2 rounded-md`}
+          className={`${getBackgroundColor({
+            snapshot,
+            itemId: item.id,
+            invalidId,
+            selectedList,
+            isDragging,
+          })} p-2 rounded-md relative`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
           {item.content}
+          {isMultiDrag(selectedList) && snapshot.isDragging ? (
+            <div className="absolute rounded-full text-gray-900 bg-green-400 text-xs -top-2 -right-2 w-6 h-6 flex items-center justify-center">
+              {selectedList.length}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       )}
     </Draggable>
   );
 }
 
-const getBackgroundColor = (snapshot, itemId) => {
-  const [invalid] = useInvalid();
-  const [selectedList] = useSelectedList();
-  const [isDragging] = useIsDragging();
-
+const getBackgroundColor = ({ snapshot, itemId, invalidId, selectedList, isDragging }) => {
   if (!isMultiDrag(selectedList) && snapshot.isDragging) {
-    if (invalid === itemId) return "bg-red-500";
+    if (invalidId === itemId) return "bg-red-500";
     else return "bg-green-400";
   }
 
