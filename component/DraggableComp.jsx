@@ -24,7 +24,7 @@ export default function DraggableComp({ item, index, onClick }) {
         >
           {item.content}
           {isMultiDrag(selectedList) && snapshot.isDragging ? (
-            <div className="absolute rounded-full text-gray-900 bg-green-400 text-xs -top-2 -right-2 w-6 h-6 flex items-center justify-center">
+            <div className="absolute rounded-full text-gray-900 bg-green-200 text-xs -top-2 -right-2 w-6 h-6 flex items-center justify-center">
               {selectedList.length}
             </div>
           ) : (
