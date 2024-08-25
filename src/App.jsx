@@ -1,20 +1,22 @@
 import React from "react";
-import { useState } from "react";
-import { getColumns } from "../util/getColumns";
-import { DragContext } from "../contexts/DragContext";
 import DragApp from "../component/DragApp";
+import { DragContext } from "../contexts/DragContext";
+import { useDragValue } from "../hooks/useDragValue";
 
 export default function App() {
-  const [columns, setColumns] = useState(getColumns(20));
-  const [isDragging, setIsDragging] = useState(false);
-  const [invalidId, setInvalidId] = useState("");
-  const [selectedList, setSelectedList] = useState([]);
+  const dragValue1 = useDragValue();
+  const dragValue2 = useDragValue();
 
+  // 만약 필요하다면 isInvalid까지 외부에서 주입하여 서로 다른 invalid 로직을 처리하도록 할 수 있다.
   return (
-    <DragContext.Provider
-      value={{ columns, setColumns, isDragging, setIsDragging, invalidId, setInvalidId, selectedList, setSelectedList }}
-    >
-      <DragApp />
-    </DragContext.Provider>
+    <div className="flex flex-col gap-20">
+      <DragContext.Provider value={{ ...dragValue1 }}>
+        <DragApp />
+      </DragContext.Provider>
+
+      <DragContext.Provider value={{ ...dragValue2 }}>
+        <DragApp />
+      </DragContext.Provider>
+    </div>
   );
 }
